@@ -14,7 +14,7 @@ Sistema web para gestionar reservas de paquetes turísticos.
 
 - `frontend/`: interfaz de usuario.
 - `backend/`: servidor y API.
-
+bla bla bla 
 ## Trabajo colaborativo
 
 El equipo utilizará Git y GitHub para compartir código y coordinar cambios.
