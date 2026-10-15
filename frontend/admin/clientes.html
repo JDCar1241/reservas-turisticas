@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes | ViajaPerú</title>
+    <script>
+        /* Diagnóstico: guarda los errores de carga para mostrarlos en pantalla si algo falla */
+        window.__errores = [];
+        window.addEventListener("error", (e) => {
+            const t = e.target;
+            if (t && t.tagName === "SCRIPT") window.__errores.push("No se pudo cargar el archivo " + (t.getAttribute("src") || ""));
+            else if (e.message) window.__errores.push(((e.filename || "").split("/").pop() || "script") + ": " + e.message);
+        }, true);
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../js/data.js" defer></script>
+    <script src="../js/utils.js" defer></script>
+    <script src="../js/admin-clientes.js" defer></script>
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+    <aside class="sidebar" id="sidebar">
+        <a class="logo" href="dashboard.html">Viaja<span>Perú</span><small class="role">Panel de trabajadores</small></a>
+        <nav class="side-nav" aria-label="Principal">
+            <a class="nav-item" href="dashboard.html">Dashboard</a>
+            <a class="nav-item" href="reservas.html">Reservas</a>
+            <a class="nav-item" href="paquetes.html">Paquetes turísticos</a>
+            <a class="nav-item active" href="clientes.html" aria-current="page">Clientes</a>
+            <span class="nav-item is-soon" aria-disabled="true">Programación de viajes <small>Pronto</small></span>
+            <span class="nav-item is-soon" aria-disabled="true">Reportes y estadísticas <small>Pronto</small></span>
+        </nav>
+        <nav class="side-nav bottom" aria-label="Cuenta">
+            <span class="nav-item is-soon" aria-disabled="true">Mi perfil <small>Pronto</small></span>
+            <a class="nav-item" href="login.html" id="staffLogout">Cerrar sesión</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div class="topbar">
+            <div>
+                <h1>Clientes</h1>
+                <p>Consulta la información de los clientes y su historial de reservas</p>
+            </div>
+            <button class="btn btn-outline btn-small menu-toggle" id="menuToggle" type="button" aria-controls="sidebar">Menú</button>
+        </div>
+
+        <div class="toolbar">
+            <div class="form-group">
+                <label for="cliSearch">Buscar</label>
+                <input id="cliSearch" type="search" placeholder="Nombre o correo electrónico">
+            </div>
+            <p class="count" id="cliCount" aria-live="polite"></p>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente</th><th>Teléfono</th><th class="num">Reservas</th><th>Registro</th><th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cliBody"></tbody>
+            </table>
+            <p class="empty-message hidden" id="cliEmpty"></p>
+        </div>
+        <p id="cliStatusMsg" class="form-message" aria-live="polite"></p>
+    </main>
+</div>
+
+<dialog id="cliDialog" class="modal" aria-labelledby="cliDialogTitle">
+    <div class="dialog-header">
+        <h2 id="cliDialogTitle">Cliente</h2>
+        <button class="close-dialog" type="button" id="cliClose" aria-label="Cerrar">×</button>
+    </div>
+
+    <p id="cliDetailMessage" class="form-message" aria-live="polite"></p>
+
+    <dl class="detail-grid" id="cliData"></dl>
+
+    <h3 class="detail-title">Historial de reservas</h3>
+    <div id="cliHistory"></div>
+
+    <div class="modal-actions">
+        <button class="btn btn-outline" type="button" id="cliCloseBtn">Cerrar</button>
+    </div>
+</dialog>
+
+<script>
+    window.addEventListener("load", () => {
+        const faltan = ["solicitarAPI", "limpiarMensaje", "cargarClientes"].filter((f) => typeof window[f] !== "function");
+        if (!window.__errores.length && !faltan.length) return;
+
+        const aviso = document.createElement("div");
+        aviso.className = "form-message error";
+        aviso.style.cssText = "margin:16px;white-space:pre-line";
+        aviso.textContent = "Este panel no se cargó bien.\n" +
+            (faltan.length ? "No están disponibles: " + faltan.join(", ") + ". Revisa que existan js/data.js, js/utils.js y js/admin-clientes.js.\n" : "") +
+            window.__errores.join("\n");
+        document.body.prepend(aviso);
+    });
+</script>
+</body>
+</html>

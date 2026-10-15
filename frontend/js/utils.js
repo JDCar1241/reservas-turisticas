@@ -1,8 +1,12 @@
+
 "use strict";
 
-/* utils.js | Elementos de la interfaz y funciones de apoyo (se carga después de data.js) */
+/* =========================================
+   ViajaPerú | utils.js
+   Elementos HTML y funciones auxiliares
+   ========================================= */
 
-// Elementos de la interfaz.
+// Elementos de la interfaz
 const loginDialog = document.querySelector("#loginDialog");
 const registerDialog = document.querySelector("#registerDialog");
 
@@ -26,7 +30,7 @@ const bookingPackage = document.querySelector("#bookingPackage");
 const sessionStatus = document.querySelector("#sessionStatus");
 
 /* =========================================
-   1. UTILIDADES
+   1. MENSAJES
    ========================================= */
 
 function mostrarMensaje(elemento, mensaje, tipo = "info") {
@@ -44,11 +48,12 @@ function limpiarMensaje(elemento) {
 }
 
 function mostrarEstado(mensaje) {
-    if (!sessionStatus) return;
+    if (!sessionStatus) {
+        console.info(mensaje);
+        return;
+    }
 
     sessionStatus.textContent = mensaje;
-
-    // El mensaje permanece visible hasta la siguiente acción.
 }
 
 function limpiarEstado() {
@@ -57,49 +62,81 @@ function limpiarEstado() {
     }
 }
 
+/* =========================================
+   2. ESTADO DE LOS BOTONES
+   ========================================= */
+
 function establecerEstadoCargando(boton, cargando, textoOriginal) {
     if (!boton) return;
 
     if (cargando) {
+        if (!boton.disabled) {
+            boton.dataset.textoOriginal = boton.textContent;
+        }
+
         boton.disabled = true;
-        boton.dataset.textoOriginal = boton.textContent;
         boton.textContent = textoOriginal || "Procesando...";
         boton.setAttribute("aria-busy", "true");
-    } else {
-        boton.disabled = false;
-        boton.textContent =
-            boton.dataset.textoOriginal || textoOriginal || "Enviar";
-        boton.removeAttribute("aria-busy");
+        return;
+    }
+
+    boton.disabled = false;
+
+    if (boton.dataset.textoOriginal !== undefined) {
+        boton.textContent = boton.dataset.textoOriginal;
         delete boton.dataset.textoOriginal;
     }
+
+    boton.removeAttribute("aria-busy");
 }
 
+/* =========================================
+   3. SOLICITUDES AL BACKEND
+   ========================================= */
+
 async function solicitarAPI(ruta, opciones = {}) {
-    const respuesta = await fetch(`${API_URL}${ruta}`, {
-        ...opciones,
-        credentials: "include",
-        // Con FormData (archivos) el navegador define el Content-Type por su cuenta.
-        headers: opciones.body instanceof FormData
-            ? { ...opciones.headers }
-            : {
-                "Content-Type": "application/json",
-                ...opciones.headers
-            }
-    });
+    if (typeof API_URL === "undefined" || !API_URL) {
+        throw new Error(
+            "API_URL no está configurada en js/data.js."
+        );
+    }
+
+    const encabezados = new Headers(opciones.headers || {});
+    const esFormData = opciones.body instanceof FormData;
+
+    if (!esFormData && opciones.body !== undefined &&
+        !encabezados.has("Content-Type")) {
+        encabezados.set("Content-Type", "application/json");
+    }
+
+    const respuesta = await fetch(
+        `${API_URL.replace(/\/+$/, "")}/${String(ruta).replace(/^\/+/, "")}`,
+        {
+            ...opciones,
+            headers: encabezados,
+            credentials: "include"
+        }
+    );
 
     const tipoContenido = respuesta.headers.get("content-type") || "";
-
     let datos = {};
 
     if (tipoContenido.includes("application/json")) {
-        datos = await respuesta.json();
+        try {
+            datos = await respuesta.json();
+        } catch {
+            throw new Error("El servidor devolvió una respuesta JSON inválida.");
+        }
+    } else {
+        const texto = await respuesta.text();
+        if (texto) datos = { mensaje: texto };
     }
 
     if (!respuesta.ok) {
         throw new Error(
             datos.mensaje ||
             datos.message ||
-            `La solicitud falló (${respuesta.status}).`
+            `La solicitud falló con el código ${respuesta.status}.`
         );
     }
 

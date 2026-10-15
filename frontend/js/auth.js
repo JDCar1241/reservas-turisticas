@@ -1,48 +1,69 @@
+
 "use strict";
 
-/* auth.js | Ventanas de sesión, inicio de sesión, registro y cierre de sesión */
+/* =========================================
+   ViajaPerú | auth.js
+   Registro e inicio y cierre de sesión
+   ========================================= */
 
 function abrirDialogo(dialogo) {
-    if (!dialogo) return;
-
-    if (typeof dialogo.showModal === "function") {
-        dialogo.showModal();
-        document.body.classList.add("dialog-open");
-    } else {
-        mostrarEstado("Tu navegador no admite esta ventana de diálogo.");
+    if (!dialogo) {
+        console.error("No se encontró la ventana solicitada.");
+        return;
     }
+
+    if (typeof dialogo.showModal !== "function") {
+        mostrarEstado("Tu navegador no admite esta ventana.");
+        return;
+    }
+
+    if (!dialogo.open) {
+        dialogo.showModal();
+    }
+
+    actualizarEstadoVentanas();
 }
 
 function cerrarDialogo(dialogo) {
     if (dialogo?.open) {
         dialogo.close();
     }
+
+    actualizarEstadoVentanas();
 }
 
 function actualizarEstadoVentanas() {
-    const hayVentanaAbierta =
+    const abierta =
         Boolean(loginDialog?.open) ||
         Boolean(registerDialog?.open);
 
-    document.body.classList.toggle("dialog-open", hayVentanaAbierta);
+    document.body.classList.toggle("dialog-open", abierta);
 }
+
+function rutasAutenticacionDisponibles() {
+    return (
+        typeof API_ROUTES !== "undefined" &&
+        API_ROUTES.login &&
+        API_ROUTES.register &&
+        API_ROUTES.logout
+    );
+}
+
+/* =========================================
+   1. VENTANAS DE AUTENTICACIÓN
+   ========================================= */
 
 [loginDialog, registerDialog].forEach((dialogo) => {
     if (!dialogo) return;
 
     dialogo.addEventListener("close", actualizarEstadoVentanas);
 
-    // Cerrar al hacer clic en el fondo de la ventana.
     dialogo.addEventListener("click", (evento) => {
         if (evento.target === dialogo) {
             cerrarDialogo(dialogo);
         }
     });
 });
-
-/* =========================================
-   2. ABRIR Y CERRAR VENTANAS
-   ========================================= */
 
 loginBtn?.addEventListener("click", () => {
     limpiarMensaje(loginMessage);
@@ -56,8 +77,9 @@ registerBtn?.addEventListener("click", () => {
 
 document.querySelectorAll("[data-close]").forEach((boton) => {
     boton.addEventListener("click", () => {
-        const dialogo = document.getElementById(boton.dataset.close);
-        cerrarDialogo(dialogo);
+        cerrarDialogo(
+            document.getElementById(boton.dataset.close)
+        );
     });
 });
 
@@ -74,7 +96,7 @@ document.querySelector("#switchToLogin")?.addEventListener("click", () => {
 });
 
 /* =========================================
-   3. INICIO DE SESIÓN
+   2. INICIO DE SESIÓN
    ========================================= */
 
 loginForm?.addEventListener("submit", async (evento) => {
@@ -83,12 +105,31 @@ loginForm?.addEventListener("submit", async (evento) => {
 
     if (!loginForm.reportValidity()) return;
 
-    const correo = document.querySelector("#loginEmail").value
-        .trim()
-        .toLowerCase();
+    if (!rutasAutenticacionDisponibles()) {
+        mostrarMensaje(
+            loginMessage,
+            "Falta configurar API_ROUTES en js/data.js.",
+            "error"
+        );
+        return;
+    }
 
-    const contrasena = document.querySelector("#loginPassword").value;
+    const correo =
+        document.querySelector("#loginEmail")?.value.trim().toLowerCase() || "";
+
+    const contrasena =
+        document.querySelector("#loginPassword")?.value || "";
+
     const boton = loginForm.querySelector('button[type="submit"]');
+
+    if (!correo || !contrasena) {
+        mostrarMensaje(
+            loginMessage,
+            "Ingresa tu correo y contraseña.",
+            "error"
+        );
+        return;
+    }
 
     establecerEstadoCargando(boton, true, "Verificando...");
 
@@ -102,32 +143,39 @@ loginForm?.addEventListener("submit", async (evento) => {
         });
 
         /*
-         * No guardamos tokens ni contraseñas en el navegador.
-         * Este flujo presupone que el backend establece una
-         * cookie de sesión segura cuando el login es correcto.
+         * El backend debe validar las credenciales y establecer
+         * la sesión segura. No guardamos contraseñas ni tokens
+         * en localStorage.
          */
 
-        cerrarDialogo(loginDialog);
         loginForm.reset();
+        cerrarDialogo(loginDialog);
 
-        if (loginBtn) loginBtn.classList.add("hidden");
-        if (registerBtn) registerBtn.classList.add("hidden");
-        if (logoutBtn) logoutBtn.classList.remove("hidden");
+        loginBtn?.classList.add("hidden");
+        registerBtn?.classList.add("hidden");
+        logoutBtn?.classList.remove("hidden");
+
+        const nombre = resultado?.usuario?.nombre;
 
         mostrarEstado(
-            `Sesión iniciada${resultado.usuario?.nombre
-                ? `: ${resultado.usuario.nombre}`
-                : ""}.`
+            nombre
+                ? `Sesión iniciada: ${nombre}.`
+                : "Sesión iniciada correctamente."
         );
 
-        // Una vez definida la autenticación, aquí se podrá
-        // actualizar el perfil y los permisos del usuario.
+        /*
+         * La navegación al dashboard se añadirá cuando definamos
+         * el flujo de páginas y la validación de sesión.
+         */
+
     } catch (error) {
+        console.error("Error al iniciar sesión:", error);
+
         mostrarMensaje(
             loginMessage,
-            error.message.includes("Failed to fetch")
-                ? "No se pudo conectar con el backend. Comprueba que el servidor esté activo y que la ruta de inicio de sesión exista."
-                : error.message,
+            error.message === "Failed to fetch"
+                ? "No se pudo conectar con el backend. Comprueba que esté activo."
+                : error.message || "No se pudo iniciar sesión.",
             "error"
         );
     } finally {
@@ -136,7 +184,7 @@ loginForm?.addEventListener("submit", async (evento) => {
 });
 
 /* =========================================
-   4. REGISTRO DE USUARIOS
+   3. REGISTRO DE USUARIOS
    ========================================= */
 
 registerForm?.addEventListener("submit", async (evento) => {
@@ -145,31 +193,49 @@ registerForm?.addEventListener("submit", async (evento) => {
 
     if (!registerForm.reportValidity()) return;
 
-    const nombres = document.querySelector("#registerNames")
-        .value.trim();
+    if (!rutasAutenticacionDisponibles()) {
+        mostrarMensaje(
+            registerMessage,
+            "Falta configurar API_ROUTES en js/data.js.",
+            "error"
+        );
+        return;
+    }
 
-    const apellidos = document.querySelector("#registerLastNames")
-        .value.trim();
+    const nombres =
+        document.querySelector("#registerNames")?.value.trim() || "";
 
-    const dni = document.querySelector("#registerDni")
-        .value.trim();
+    const apellidos =
+        document.querySelector("#registerLastNames")?.value.trim() || "";
 
-    const telefono = document.querySelector("#registerPhone")
-        .value.trim();
+    const dni =
+        document.querySelector("#registerDni")?.value.trim() || "";
 
-    const correo = document.querySelector("#registerEmail")
-        .value.trim()
-        .toLowerCase();
+    const telefono =
+        document.querySelector("#registerPhone")?.value.trim() || "";
 
-    const contrasena = document.querySelector("#registerPassword").value;
+    const correo =
+        document.querySelector("#registerEmail")?.value.trim().toLowerCase() || "";
 
-    const confirmarContrasena =
-        document.querySelector("#registerPasswordConfirm").value;
+    const contrasena =
+        document.querySelector("#registerPassword")?.value || "";
+
+    const confirmar =
+        document.querySelector("#registerPasswordConfirm")?.value || "";
+
+    if (!nombres || !apellidos) {
+        mostrarMensaje(
+            registerMessage,
+            "Ingresa tus nombres y apellidos.",
+            "error"
+        );
+        return;
+    }
 
     if (!/^[0-9]{8}$/.test(dni)) {
         mostrarMensaje(
             registerMessage,
-            "El DNI debe contener exactamente 8 dígitos numéricos.",
+            "El DNI debe contener exactamente 8 dígitos.",
             "error"
         );
         return;
@@ -184,7 +250,7 @@ registerForm?.addEventListener("submit", async (evento) => {
         return;
     }
 
-    if (contrasena !== confirmarContrasena) {
+    if (contrasena !== confirmar) {
         mostrarMensaje(
             registerMessage,
             "Las contraseñas no coinciden.",
@@ -213,22 +279,24 @@ registerForm?.addEventListener("submit", async (evento) => {
         registerForm.reset();
         cerrarDialogo(registerDialog);
 
-        mostrarEstado(
-            "Registro completado. Ya puedes iniciar sesión."
-        );
+        mostrarEstado("Registro completado. Ya puedes iniciar sesión.");
 
         abrirDialogo(loginDialog);
+
         mostrarMensaje(
             loginMessage,
-            "Cuenta creada. Inicia sesión con tus credenciales.",
+            "Tu cuenta fue creada. Inicia sesión con tus credenciales.",
             "success"
         );
+
     } catch (error) {
+        console.error("Error al registrar usuario:", error);
+
         mostrarMensaje(
             registerMessage,
-            error.message.includes("Failed to fetch")
-                ? "No se pudo conectar con el backend. Verifica que esté activo."
-                : error.message,
+            error.message === "Failed to fetch"
+                ? "No se pudo conectar con el backend. Comprueba que esté activo."
+                : error.message || "No se pudo completar el registro.",
             "error"
         );
     } finally {
@@ -237,10 +305,15 @@ registerForm?.addEventListener("submit", async (evento) => {
 });
 
 /* =========================================
-   5. CERRAR SESIÓN
+   4. CIERRE DE SESIÓN
    ========================================= */
 
 logoutBtn?.addEventListener("click", async () => {
+    if (!rutasAutenticacionDisponibles()) {
+        mostrarEstado("Falta configurar la ruta de cierre de sesión.");
+        return;
+    }
+
     logoutBtn.disabled = true;
 
     try {
@@ -249,34 +322,35 @@ logoutBtn?.addEventListener("click", async () => {
             body: JSON.stringify({})
         });
 
+        loginBtn?.classList.remove("hidden");
+        registerBtn?.classList.remove("hidden");
+        logoutBtn?.classList.add("hidden");
+
         mostrarEstado("Has cerrado sesión correctamente.");
+
     } catch (error) {
-        /*
-         * No afirmamos que la sesión fue invalidada si el servidor
-         * no confirmó el cierre. La ruta debe implementarse
-         * y revocar la sesión o invalidar el token correspondiente.
-         */
+        console.error("Error al cerrar sesión:", error);
+
         mostrarEstado(
             `No se pudo confirmar el cierre de sesión: ${error.message}`
         );
+    } finally {
         logoutBtn.disabled = false;
-        return;
     }
-
-    loginBtn?.classList.remove("hidden");
-    registerBtn?.classList.remove("hidden");
-    logoutBtn.classList.add("hidden");
-    logoutBtn.disabled = false;
 });
 
 /* =========================================
-   6. MOSTRAR / OCULTAR CONTRASEÑA
+   5. MOSTRAR Y OCULTAR CONTRASEÑAS
    ========================================= */
 
 function restablecerCamposContrasena(dialogo) {
     dialogo?.querySelectorAll(".toggle-password").forEach((boton) => {
         const campo = document.getElementById(boton.dataset.target);
-        if (campo) campo.type = "password";
+
+        if (campo) {
+            campo.type = "password";
+        }
+
         boton.textContent = "Mostrar";
         boton.setAttribute("aria-pressed", "false");
     });
@@ -285,9 +359,11 @@ function restablecerCamposContrasena(dialogo) {
 document.querySelectorAll(".toggle-password").forEach((boton) => {
     boton.addEventListener("click", () => {
         const campo = document.getElementById(boton.dataset.target);
+
         if (!campo) return;
 
         const mostrar = campo.type === "password";
+
         campo.type = mostrar ? "text" : "password";
         boton.textContent = mostrar ? "Ocultar" : "Mostrar";
         boton.setAttribute("aria-pressed", String(mostrar));
@@ -295,5 +371,7 @@ document.querySelectorAll(".toggle-password").forEach((boton) => {
 });
 
 [loginDialog, registerDialog].forEach((dialogo) => {
-    dialogo?.addEventListener("close", () => restablecerCamposContrasena(dialogo));
+    dialogo?.addEventListener("close", () => {
+        restablecerCamposContrasena(dialogo);
+    });
 });
