@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reserva paquetes turísticos y descubre nuevos destinos con nuestro sistema de reservas.">
+    <title>Reservas Turísticas | Descubre tu próximo destino</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="navbar">
+        <a class="logo" href="#">Viaja<span>Perú</span></a>
+
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#destinos">Destinos</a>
+            <a href="#nosotros">Nosotros</a>
+        </nav>
+
+        <a class="btn btn-small" href="#destinos">Explorar viajes</a>
+    </header>
+
+    <main>
+        <section class="hero" id="inicio">
+            <div class="hero-content">
+                <p class="eyebrow">TU PRÓXIMA AVENTURA COMIENZA AQUÍ</p>
+                <h1>Descubre el Perú.<br><span>Vive la aventura.</span></h1>
+                <p class="hero-description">
+                    Encuentra paquetes turísticos, explora destinos increíbles
+                    y prepara tu próxima experiencia con nosotros.
+                </p>
+                <a href="#destinos" class="btn">Explorar destinos →</a>
+            </div>
+
+            <div class="hero-card">
+                <span class="card-label">DESTINO DESTACADO</span>
+                <h2>Machu Picchu</h2>
+                <p>Historia, naturaleza y una experiencia inolvidable.</p>
+                <a href="#destinos">Descubrir destino ↗</a>
+            </div>
+        </section>
+
+        <section class="destinations" id="destinos">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">ENCUENTRA TU PRÓXIMO VIAJE</p>
+                    <h2>Destinos populares</h2>
+                </div>
+                <p>Explora algunos de los lugares más fascinantes del Perú.</p>
+            </div>
+
+            <div class="destination-grid">
+                <article class="destination-card">
+                    <div class="destination-image cusco">
+                        <span>CUSCO</span>
+                    </div>
+                    <div class="destination-info">
+                        <h3>Machu Picchu</h3>
+                        <p>Historia y cultura andina</p>
+                        <button class="btn btn-outline reserve-btn"
+                                data-destination="Machu Picchu">
+                            Ver paquete
+                        </button>
+                    </div>
+                </article>
+
+                <article class="destination-card">
+                    <div class="destination-image arequipa">
+                        <span>AREQUIPA</span>
+                    </div>
+                    <div class="destination-info">
+                        <h3>Cañón del Colca</h3>
+                        <p>Naturaleza y aventura</p>
+                        <button class="btn btn-outline reserve-btn"
+                                data-destination="Cañón del Colca">
+                            Ver paquete
+                        </button>
+                    </div>
+                </article>
+
+                <article class="destination-card">
+                    <div class="destination-image puno">
+                        <span>PUNO</span>
+                    </div>
+                    <div class="destination-info">
+                        <h3>Lago Titicaca</h3>
+                        <p>Tradición y paisajes únicos</p>
+                        <button class="btn btn-outline reserve-btn"
+                                data-destination="Lago Titicaca">
+                            Ver paquete
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="about" id="nosotros">
+            <p class="eyebrow">VIAJA CON CONFIANZA</p>
+            <h2>Tu próxima experiencia empieza con una buena reserva.</h2>
+            <p>
+                Estamos preparando una plataforma para consultar paquetes,
+                revisar disponibilidad y gestionar reservas turísticas.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <a class="logo" href="#">Viaja<span>Perú</span></a>
+        <p>© 2026 Reservas Turísticas. Proyecto académico.</p>
+    </footer>
+</body>
+</html>
