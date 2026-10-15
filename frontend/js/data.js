@@ -2,8 +2,17 @@
 
 /* data.js | Configuración de la API y estado compartido */
 
-// Cambia esta dirección cuando publiques el backend.
-const API_URL = "http://localhost:3000";
+// Entorno: en tu computadora (localhost) se activa el modo desarrollo; en el servidor, no.
+// Así no hay que acordarse de apagarlo al desplegar.
+const MODO_DESARROLLO =
+    window.location.protocol === "file:" ||
+    ["localhost", "127.0.0.1"].includes(window.location.hostname);
+
+// Dirección del backend. AL DESPLEGAR: reemplaza el texto de producción por la URL real
+// de tu backend (con https://). El backend debe permitir el origen del frontend en su CORS.
+const API_URL = MODO_DESARROLLO
+    ? "http://localhost:3000"
+    : "https://REEMPLAZAR-CON-LA-URL-DE-TU-BACKEND";
 
 // Rutas previstas. Deben coincidir con las que implemente
 // el backend antes de activar el registro y las reservas.
@@ -27,9 +36,6 @@ const PANEL_POR_ROL = {
 };
 const ROLES_PERSONAL = Object.keys(PANEL_POR_ROL);
 
-// Mientras no exista el backend, true deja ver el panel sin sesión (solo para diseñar).
-// ANTES DE PUBLICAR: ponerlo en false.
-const MODO_DESARROLLO = true;
 
 // Datos temporales para preparar la interfaz.
 // No representan paquetes reales de la base de datos.
