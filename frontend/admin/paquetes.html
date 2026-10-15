@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paquetes turísticos | ViajaPerú</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../js/data.js" defer></script>
+    <script src="../js/utils.js" defer></script>
+    <script src="../js/admin-paquetes.js" defer></script>
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+    <aside class="sidebar" id="sidebar">
+        <a class="logo" href="dashboard.html">Viaja<span>Perú</span><small class="role">Panel de trabajadores</small></a>
+        <nav class="side-nav" aria-label="Principal">
+            <a class="nav-item" href="dashboard.html">Dashboard</a>
+            <a class="nav-item" href="reservas.html">Reservas</a>
+            <a class="nav-item active" href="paquetes.html" aria-current="page">Paquetes turísticos</a>
+            <span class="nav-item is-soon" aria-disabled="true">Clientes <small>Pronto</small></span>
+            <span class="nav-item is-soon" aria-disabled="true">Programación de viajes <small>Pronto</small></span>
+            <span class="nav-item is-soon" aria-disabled="true">Reportes y estadísticas <small>Pronto</small></span>
+        </nav>
+        <nav class="side-nav bottom" aria-label="Cuenta">
+            <span class="nav-item is-soon" aria-disabled="true">Mi perfil <small>Pronto</small></span>
+            <a class="nav-item" href="login.html" id="staffLogout">Cerrar sesión</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div class="topbar">
+            <div>
+                <h1>Paquetes turísticos</h1>
+                <p>Crea, edita y administra los paquetes que ven los clientes</p>
+            </div>
+            <div class="topbar-actions">
+                <button class="btn btn-outline btn-small menu-toggle" id="menuToggle" type="button" aria-controls="sidebar">Menú</button>
+                <button class="btn" id="newPackageBtn" type="button">Nuevo paquete</button>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="form-group">
+                <label for="pkgSearch">Buscar</label>
+                <input id="pkgSearch" type="search" placeholder="Nombre o destino">
+            </div>
+            <div class="form-group">
+                <label for="pkgStatus">Estado</label>
+                <select id="pkgStatus">
+                    <option value="todos">Todos</option>
+                    <option value="activo">Activos</option>
+                    <option value="inactivo">Inactivos</option>
+                </select>
+            </div>
+            <p class="count" id="pkgCount" aria-live="polite"></p>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Paquete</th><th>Duración</th><th class="num">Precio</th>
+                        <th class="num">Cupos</th><th>Estado</th><th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="pkgBody"></tbody>
+            </table>
+            <p class="empty-message hidden" id="pkgEmpty"></p>
+        </div>
+        <p id="pkgStatusMsg" class="form-message" aria-live="polite"></p>
+    </main>
+</div>
+
+<dialog id="pkgDialog" class="modal" aria-labelledby="pkgDialogTitle">
+    <form id="pkgForm" novalidate>
+        <div class="dialog-header">
+            <h2 id="pkgDialogTitle">Nuevo paquete</h2>
+            <button class="close-dialog" type="button" id="pkgClose" aria-label="Cerrar">×</button>
+        </div>
+
+        <div class="admin-form-grid">
+            <div class="form-group span-2">
+                <label for="pkgName">Nombre del paquete</label>
+                <input id="pkgName" type="text" maxlength="120" required>
+            </div>
+            <div class="form-group">
+                <label for="pkgDestination">Destino</label>
+                <input id="pkgDestination" type="text" maxlength="80" required>
+            </div>
+            <div class="form-group">
+                <label for="pkgDays">Duración (días)</label>
+                <input id="pkgDays" type="number" min="1" max="60" step="1" required>
+            </div>
+            <div class="form-group">
+                <label for="pkgPrice">Precio por persona (S/)</label>
+                <input id="pkgPrice" type="number" min="0" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="pkgSeats">Cupos disponibles</label>
+                <input id="pkgSeats" type="number" min="0" max="500" step="1" required>
+            </div>
+            <div class="form-group span-2">
+                <label for="pkgDescription">Descripción</label>
+                <textarea id="pkgDescription" rows="3" maxlength="1000"></textarea>
+            </div>
+            <div class="form-group span-2">
+                <label for="pkgImage">Imagen (JPG, PNG o WebP, máx. 5 MB)</label>
+                <input id="pkgImage" type="file" accept="image/jpeg,image/png,image/webp">
+                <img id="pkgPreview" class="preview hidden" alt="Vista previa de la imagen del paquete">
+            </div>
+            <label class="check span-2">
+                <input id="pkgActive" type="checkbox" checked>
+                Paquete activo (visible para los clientes)
+            </label>
+        </div>
+
+        <p id="pkgFormMessage" class="form-message" aria-live="polite"></p>
+
+        <div class="modal-actions">
+            <button class="btn btn-outline" type="button" id="pkgCancel">Cancelar</button>
+            <button class="btn" type="submit">Guardar paquete</button>
+        </div>
+    </form>
+</dialog>
+</body>
+</html>

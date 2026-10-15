@@ -1,0 +1,44 @@
+/* =========================================
+   responsive.css | Adaptación a tabletas y móviles
+   ========================================= */
+
+/* 14. Tabletas */
+
+@media (max-width: 1100px) {
+    .navbar { flex-wrap: wrap; }
+    .navbar nav { order: 3; width: 100%; justify-content: center; }
+    .search-section .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .search-button { width: 100%; }
+    .package-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hero-card { display: none; }
+}
+
+/* 15. Móviles */
+
+@media (max-width: 700px) {
+    .navbar { position: static; padding: 14px 5%; gap: 14px; }
+    .navbar nav { flex-wrap: wrap; gap: 4px; }
+    .nav-actions { width: 100%; justify-content: center; flex-wrap: wrap; }
+
+    .hero { min-height: auto; padding: 72px 5%; }
+    .hero h1 { font-size: clamp(2.3rem, 10vw, 3.2rem); }
+
+    .destinations, .search-section, .booking-section, .about { padding: 60px 5%; }
+
+    .destination-grid, .package-grid { grid-template-columns: 1fr; }
+    .section-heading { align-items: flex-start; flex-direction: column; }
+    .search-section .form-grid, .form-grid { grid-template-columns: 1fr; }
+    .form-card { padding: 22px; }
+    .auth-dialog { padding: 22px; }
+    .dialog-header h2 { font-size: 1.5rem; }
+
+    footer { flex-direction: column; padding: 26px 5%; text-align: center; }
+}
+
+/* 16. Pantallas muy pequeñas */
+
+@media (max-width: 380px) {
+    .logo { font-size: 1.3rem; }
+    .btn { padding: 10px 14px; font-size: .9rem; }
+    .auth-dialog { width: 96%; padding: 18px; }
+}

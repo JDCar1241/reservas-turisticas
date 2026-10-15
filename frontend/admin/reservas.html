@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas | ViajaPerú</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../js/data.js" defer></script>
+    <script src="../js/utils.js" defer></script>
+    <script src="../js/admin-reservas.js" defer></script>
+</head>
+<body class="admin-body">
+<div class="admin-shell">
+    <aside class="sidebar" id="sidebar">
+        <a class="logo" href="dashboard.html">Viaja<span>Perú</span><small class="role">Panel de trabajadores</small></a>
+        <nav class="side-nav" aria-label="Principal">
+            <a class="nav-item" href="dashboard.html">Dashboard</a>
+            <a class="nav-item active" href="reservas.html" aria-current="page">Reservas</a>
+            <a class="nav-item" href="paquetes.html">Paquetes turísticos</a>
+            <span class="nav-item is-soon" aria-disabled="true">Clientes <small>Pronto</small></span>
+            <span class="nav-item is-soon" aria-disabled="true">Programación de viajes <small>Pronto</small></span>
+            <span class="nav-item is-soon" aria-disabled="true">Reportes y estadísticas <small>Pronto</small></span>
+        </nav>
+        <nav class="side-nav bottom" aria-label="Cuenta">
+            <span class="nav-item is-soon" aria-disabled="true">Mi perfil <small>Pronto</small></span>
+            <a class="nav-item" href="login.html" id="staffLogout">Cerrar sesión</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div class="topbar">
+            <div>
+                <h1>Reservas</h1>
+                <p>Consulta, confirma o cancela las solicitudes de los clientes</p>
+            </div>
+            <button class="btn btn-outline btn-small menu-toggle" id="menuToggle" type="button" aria-controls="sidebar">Menú</button>
+        </div>
+
+        <div class="toolbar">
+            <div class="form-group">
+                <label for="resSearch">Buscar</label>
+                <input id="resSearch" type="search" placeholder="Código, cliente o destino">
+            </div>
+            <div class="form-group">
+                <label for="resStatus">Estado</label>
+                <select id="resStatus">
+                    <option value="todas">Todos</option>
+                    <option value="pendiente">Pendientes</option>
+                    <option value="confirmada">Confirmadas</option>
+                    <option value="cancelada">Canceladas</option>
+                </select>
+            </div>
+            <p class="count" id="resCount" aria-live="polite"></p>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th><th>Cliente</th><th>Paquete</th><th>Salida</th>
+                        <th>Pasajeros</th><th>Importe</th><th>Estado</th><th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="resBody"></tbody>
+            </table>
+            <p class="empty-message hidden" id="resEmpty">Aún no hay reservas registradas.</p>
+        </div>
+    </main>
+</div>
+</body>
+</html>

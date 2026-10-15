@@ -1,0 +1,173 @@
+/* =========================================
+   layout.css | Estructura: navbar, hero, secciones, contenedores y footer
+   ========================================= */
+
+/* 1. Navegación (fija y con desenfoque) */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 14px var(--gutter);
+    background: rgba(255, 255, 255, .92);
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(14, 31, 27, .04);
+}
+
+.logo {
+    flex-shrink: 0;
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+.logo span { color: var(--primary); }
+
+.navbar nav { display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+.navbar nav a {
+    padding: 8px 14px;
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: .93rem;
+    font-weight: 600;
+    transition: color .2s, background .2s;
+}
+.navbar nav a:hover,
+.navbar nav a:focus-visible { color: var(--primary); background: var(--primary-light); }
+
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+
+/* 2. Portada: imagen a pantalla completa */
+
+.hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 600px;
+    padding: clamp(80px, 11vw, 140px) var(--gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    color: #fff;
+    background:
+        linear-gradient(90deg,
+            rgba(5, 35, 28, .88) 0%,
+            rgba(5, 35, 28, .68) 52%,
+            rgba(5, 35, 28, .25) 100%),
+        url("https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2000&q=90")
+        center 48% / cover no-repeat;
+}
+
+.hero-content { max-width: 680px; }
+.hero .eyebrow { color: var(--accent); }
+
+.hero h1 {
+    max-width: 780px;
+    margin-bottom: 24px;
+    font-size: clamp(2.5rem, 5.5vw, 4.8rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+}
+.hero h1 span { color: var(--accent); }
+
+.hero-description {
+    max-width: 540px;
+    margin-bottom: 32px;
+    color: rgba(255, 255, 255, .9);
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.8;
+}
+
+.hero .btn {
+    min-height: 48px;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: var(--ink);
+}
+.hero .btn:hover { background: var(--accent-dark); box-shadow: 0 10px 26px rgba(0, 0, 0, .25); }
+
+.hero a:focus-visible,
+.hero button:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+.hero-card {
+    width: 320px;
+    flex-shrink: 0;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+.card-label { margin-bottom: 8px; color: var(--accent); font-size: .85rem; font-weight: 700; }
+.hero-card h2 { font-size: 1.7rem; }
+.hero-card p { margin: 8px 0 16px; color: rgba(255, 255, 255, .85); font-size: .93rem; }
+.hero-card a { align-self: flex-start; font-weight: 700; border-bottom: 1px solid rgba(255, 255, 255, .5); }
+.hero-card a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* 3. Secciones */
+
+.destinations, .search-section, .booking-section, .about { padding: 88px var(--gutter); }
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 36px;
+}
+.section-heading h2, .about h2 { font-size: clamp(1.9rem, 3.2vw, 2.6rem); }
+.section-heading > p { max-width: 360px; color: var(--muted); }
+.section-description { max-width: 70ch; margin-bottom: 26px; color: var(--muted); }
+
+.search-section { background: var(--primary-light); }
+
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 22px; }
+.search-section .form-grid { grid-template-columns: 1.3fr 1fr 1fr auto; align-items: end; }
+
+/* 4. Reservas */
+
+.booking-section { background: var(--background); }
+.booking-section .form-card,
+.booking-section .section-heading { max-width: 900px; margin-left: auto; margin-right: auto; }
+.booking-section .form-card > .btn { margin-top: 4px; }
+
+/* 5. Sección informativa y pie de página */
+
+.about { text-align: center; background: var(--surface); border-top: 1px solid var(--border); }
+.about h2 { max-width: 20ch; margin: 0 auto 18px; }
+.about > p:last-child { max-width: 60ch; margin: auto; color: var(--muted); }
+
+footer {
+    padding: 32px var(--gutter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    background: var(--ink);
+    color: #fff;
+}
+footer .logo span { color: var(--accent); }
+footer p { color: rgba(255, 255, 255, .6); font-size: .85rem; }
+
+/* 6. Animación de entrada (respeta preferencias del usuario) */
+
+@media (prefers-reduced-motion: no-preference) {
+    .hero-content, .hero-card { animation: appear .7s ease both; }
+    .hero-card { animation-delay: .12s; }
+
+    @keyframes appear {
+        from { opacity: 0; transform: translateY(14px); }
+        to { opacity: 1; transform: none; }
+    }
+}

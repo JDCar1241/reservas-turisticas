@@ -1,0 +1,27 @@
+/* =========================================
+   variables.css | Colores, tipografía, sombras y medidas globales
+   ========================================= */
+
+:root {
+    --primary: #0b5d4b;
+    --primary-dark: #08493b;
+    --primary-light: #e6f1ec;
+    --accent: #f2b134;
+    --accent-dark: #dc9c1f;
+    --ink: #0e1f1b;
+    --background: #fafbfa;
+    --surface: #ffffff;
+    --text: #0e1f1b;
+    --muted: #5b6b65;
+    --border: #e2e9e5;
+    --danger: #b42318;
+    --success: #0b5d4b;
+    --shadow-sm: 0 1px 2px rgba(14, 31, 27, .06), 0 4px 12px rgba(14, 31, 27, .04);
+    --shadow: 0 2px 4px rgba(14, 31, 27, .04), 0 18px 40px rgba(14, 31, 27, .09);
+    --radius: 14px;
+    --radius-sm: 8px;
+    --transition-fast: .18s ease;
+    --transition-normal: .28s ease;
+    --gutter: max(7%, calc((100% - 1200px) / 2));
+    --font: "Plus Jakarta Sans", "Segoe UI", system-ui, Arial, sans-serif;
+}
