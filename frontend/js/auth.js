@@ -40,6 +40,24 @@ function actualizarEstadoVentanas() {
     });
 });
 
+// Un fallo de red del navegador (servidor apagado, URL o puerto incorrectos, CORS).
+function esErrorDeRed(error) {
+    return error instanceof TypeError ||
+        String(error?.message || "").includes("Failed to fetch");
+}
+
+// Muestra los botones según haya o no una sesión iniciada.
+function mostrarBotonesDeSesion(haySesion) {
+    loginBtn?.classList.toggle("hidden", haySesion);
+    registerBtn?.classList.toggle("hidden", haySesion);
+    logoutBtn?.classList.toggle("hidden", !haySesion);
+}
+
+// Al recargar la página, se recupera el estado visual de la sesión.
+if (obtenerToken() && obtenerUsuarioGuardado()) {
+    mostrarBotonesDeSesion(true);
+}
+
 /* =========================================
    2. ABRIR Y CERRAR VENTANAS
    ========================================= */
@@ -93,47 +111,41 @@ loginForm?.addEventListener("submit", async (evento) => {
     establecerEstadoCargando(boton, true, "Verificando...");
 
     try {
+        // El backend espera los campos "correo" y "contrasena".
         const resultado = await solicitarAPI(API_ROUTES.login, {
             method: "POST",
-            body: JSON.stringify({
-                email: correo,
-                password: contrasena
-            })
+            body: JSON.stringify({ correo, contrasena })
         });
 
-        /*
-         * No guardamos tokens ni contraseñas en el navegador.
-         * Este flujo presupone que el backend establece una
-         * cookie de sesión segura cuando el login es correcto.
-         */
+        const usuario = resultado.usuario ?? resultado.session?.usuario;
+        const token = resultado.session?.access_token;
 
-        // Un solo login: según el rol que devuelve el backend, cada rol del personal va a
-        // su propio panel y los clientes se quedan en el sitio público.
-        if (esPersonal(resultado.usuario?.rol)) {
-            window.location.href = panelPorRol(resultado.usuario.rol);
+        if (!token || !usuario) {
+            throw new Error("La respuesta del servidor no incluye la sesión.");
+        }
+
+        // Se guarda el token para las siguientes peticiones.
+        guardarSesion(token, usuario);
+
+        // Un solo login: según el rol que devuelve el backend, cada rol del personal
+        // va a su propio panel y los clientes se quedan en el sitio público.
+        if (esPersonal(usuario.rol)) {
+            window.location.href = panelPorRol(usuario.rol);
             return;
         }
 
         cerrarDialogo(loginDialog);
         loginForm.reset();
-
-        if (loginBtn) loginBtn.classList.add("hidden");
-        if (registerBtn) registerBtn.classList.add("hidden");
-        if (logoutBtn) logoutBtn.classList.remove("hidden");
+        mostrarBotonesDeSesion(true);
 
         mostrarEstado(
-            `Sesión iniciada${resultado.usuario?.nombre
-                ? `: ${resultado.usuario.nombre}`
-                : ""}.`
+            `Sesión iniciada${usuario.nombre ? `: ${usuario.nombre}` : ""}.`
         );
-
-        // Una vez definida la autenticación, aquí se podrá
-        // actualizar el perfil y los permisos del usuario.
     } catch (error) {
         mostrarMensaje(
             loginMessage,
-            error.message.includes("Failed to fetch")
-                ? "No se pudo conectar con el backend. Comprueba que el servidor esté activo y que la ruta de inicio de sesión exista."
+            esErrorDeRed(error)
+                ? "No se pudo conectar con el backend. Comprueba que el servidor esté activo y que la dirección de la API sea correcta."
                 : error.message,
             "error"
         );
@@ -144,7 +156,9 @@ loginForm?.addEventListener("submit", async (evento) => {
 
 /* =========================================
    4. REGISTRO DE USUARIOS
-   ========================================= */
+   =========================================
+   OJO: el backend todavía no tiene POST /api/auth/register.
+   Hasta crearlo, esta pantalla mostrará "Ruta no encontrada". */
 
 registerForm?.addEventListener("submit", async (evento) => {
     evento.preventDefault();
@@ -212,8 +226,8 @@ registerForm?.addEventListener("submit", async (evento) => {
                 apellidos,
                 dni,
                 telefono,
-                email: correo,
-                password: contrasena
+                correo,
+                contrasena
             })
         });
 
@@ -233,7 +247,7 @@ registerForm?.addEventListener("submit", async (evento) => {
     } catch (error) {
         mostrarMensaje(
             registerMessage,
-            error.message.includes("Failed to fetch")
+            esErrorDeRed(error)
                 ? "No se pudo conectar con el backend. Verifica que esté activo."
                 : error.message,
             "error"
@@ -258,21 +272,24 @@ logoutBtn?.addEventListener("click", async () => {
 
         mostrarEstado("Has cerrado sesión correctamente.");
     } catch (error) {
-        /*
-         * No afirmamos que la sesión fue invalidada si el servidor
-         * no confirmó el cierre. La ruta debe implementarse
-         * y revocar la sesión o invalidar el token correspondiente.
-         */
-        mostrarEstado(
-            `No se pudo confirmar el cierre de sesión: ${error.message}`
-        );
-        logoutBtn.disabled = false;
-        return;
+        // Un token vencido (401) ya no sirve: se puede cerrar la sesión local.
+        if (error.status !== 401) {
+            /*
+             * No afirmamos que la sesión fue invalidada si el servidor
+             * no confirmó el cierre.
+             */
+            mostrarEstado(
+                `No se pudo confirmar el cierre de sesión: ${error.message}`
+            );
+            logoutBtn.disabled = false;
+            return;
+        }
+
+        mostrarEstado("Tu sesión ya había expirado.");
     }
 
-    loginBtn?.classList.remove("hidden");
-    registerBtn?.classList.remove("hidden");
-    logoutBtn.classList.add("hidden");
+    limpiarSesion();
+    mostrarBotonesDeSesion(false);
     logoutBtn.disabled = false;
 });
 
