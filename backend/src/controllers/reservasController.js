@@ -7,7 +7,7 @@ const crearReservaPresencial = async (req, res) => {
     acompanantes = []
   } = req.body;
 
-  // 1. Validaciones requeridas según la HU-001[cite: 9]
+  // 1. Validaciones requeridas de campos obligatorios
   if (!salida_id || !dni || !nombres || !apellido_paterno || !apellido_materno || !correo || !telefono) {
     return res.status(400).json({
       ok: false,
@@ -21,7 +21,7 @@ const crearReservaPresencial = async (req, res) => {
   try {
     await client.query("BEGIN");
 
-    // 2. Verificar y bloquear cupos en la salida elegida[cite: 7, 9]
+    // 2. Verificar y bloquear cupos en la salida elegida
     const querySalida = `
       SELECT id, cupos_disponibles, estado 
       FROM salidas 
@@ -44,7 +44,7 @@ const crearReservaPresencial = async (req, res) => {
       });
     }
 
-    // 3. Crear o actualizar cliente titular[cite: 7, 9]
+    // 3. Crear o actualizar cliente titular
     const queryCliente = `
       INSERT INTO clientes (dni, nombres, apellido_paterno, apellido_materno, correo, telefono)
       VALUES ($1, $2, $3, $4, $5, $6)
@@ -61,7 +61,22 @@ const crearReservaPresencial = async (req, res) => {
     ]);
     const clienteId = resCliente.rows[0].id;
 
-    // 4. Generar la Reserva[cite: 7, 9]
+    // --- NUEVA VALIDACIÓN: Control de Reserva Duplicada por Salida ---
+    const queryVerificarReserva = `
+      SELECT id FROM reservas 
+      WHERE cliente_id = $1 AND salida_id = $2;
+    `;
+    const resVerificar = await client.query(queryVerificarReserva, [clienteId, salida_id]);
+
+    if (resVerificar.rows.length > 0) {
+      await client.query("ROLLBACK");
+      return res.status(400).json({
+        ok: false,
+        mensaje: "El cliente ya cuenta con una reserva registrada para esta salida programada."
+      });
+    }
+
+    // 4. Generar la Reserva si no existía previa
     const queryReserva = `
       INSERT INTO reservas (cliente_id, salida_id, cantidad_personas, estado_pago, fecha_reserva)
       VALUES ($1, $2, $3, 'Pendiente', NOW())
@@ -70,7 +85,7 @@ const crearReservaPresencial = async (req, res) => {
     const resReserva = await client.query(queryReserva, [clienteId, salida_id, totalPersonas]);
     const nuevaReserva = resReserva.rows[0];
 
-    // 5. Registrar Acompañantes vinculados al UUID de la reserva[cite: 7, 9]
+    // 5. Registrar Acompañantes vinculados al UUID de la nueva reserva
     for (const acomp of acompanantes) {
       const queryAcompanante = `
         INSERT INTO acompanantes (reserva_id, dni, nombres, apellidos)
@@ -84,7 +99,7 @@ const crearReservaPresencial = async (req, res) => {
       ]);
     }
 
-    // 6. Restar cupos en la tabla 'salidas'[cite: 7, 9]
+    // 6. Restar cupos en la tabla 'salidas'
     const updateCupos = `
       UPDATE salidas 
       SET cupos_disponibles = cupos_disponibles - $1
