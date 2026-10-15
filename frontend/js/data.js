@@ -12,8 +12,17 @@ const API_ROUTES = {
     register: "/api/auth/register",
     packages: "/api/paquetes",
     reservations: "/api/reservas",
-    logout: "/api/auth/logout"
+    logout: "/api/auth/logout",
+    me: "/api/auth/me"            // devuelve el usuario de la sesión: { usuario: { nombre, rol } }
 };
+
+// Roles que entran al panel de la empresa. El rol lo decide SIEMPRE el backend
+// (columna "rol" en la base de datos); el navegador solo lo lee para redirigir.
+const ROLES_PERSONAL = ["administrador", "trabajador", "encargado_viajes", "recepcionista"];
+
+// Mientras no exista el backend, true deja ver el panel sin sesión (solo para diseñar).
+// ANTES DE PUBLICAR: ponerlo en false.
+const MODO_DESARROLLO = true;
 
 // Datos temporales para preparar la interfaz.
 // No representan paquetes reales de la base de datos.

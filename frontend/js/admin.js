@@ -1,9 +1,6 @@
 "use strict";
 
-/* admin.js | Login de trabajadores y panel de control (sin datos hasta conectar la base) */
-
-// Ruta prevista para el backend. Debe existir antes de usar el login real.
-const ADMIN_LOGIN_ROUTE = "/api/admin/login";
+/* admin.js | Panel de control (sin datos hasta conectar la base) */
 
 // ---- DATOS: se llenan con las respuestas del backend cuando la base esté lista ----
 let reservasRecientes = [];   // { codigo, paquete, pasajeros, estado }
@@ -81,40 +78,5 @@ function pintarPanel() {
         document.querySelector("#sidebar")?.classList.toggle("open");
     });
 }
-
-// ---- Login de trabajadores ----
-const staffForm = document.querySelector("#staffLoginForm");
-
-staffForm?.addEventListener("submit", async (evento) => {
-    evento.preventDefault();
-    const mensaje = document.querySelector("#staffMessage");
-    limpiarMensaje(mensaje);
-
-    if (!staffForm.reportValidity()) return;
-
-    const boton = staffForm.querySelector('button[type="submit"]');
-    establecerEstadoCargando(boton, true, "Verificando...");
-
-    try {
-        await solicitarAPI(ADMIN_LOGIN_ROUTE, {
-            method: "POST",
-            body: JSON.stringify({
-                email: document.querySelector("#staffEmail").value.trim().toLowerCase(),
-                password: document.querySelector("#staffPassword").value
-            })
-        });
-        window.location.href = "dashboard.html";
-    } catch (error) {
-        mostrarMensaje(
-            mensaje,
-            error.message.includes("Failed to fetch")
-                ? "No se pudo conectar con el backend. Comprueba que el servidor esté activo."
-                : error.message,
-            "error"
-        );
-    } finally {
-        establecerEstadoCargando(boton, false);
-    }
-});
 
 pintarPanel();
