@@ -16,9 +16,16 @@ const API_ROUTES = {
     me: "/api/auth/me"            // devuelve el usuario de la sesión: { usuario: { nombre, rol } }
 };
 
-// Roles que entran al panel de la empresa. El rol lo decide SIEMPRE el backend
-// (columna "rol" en la base de datos); el navegador solo lo lee para redirigir.
-const ROLES_PERSONAL = ["administrador", "trabajador", "encargado_viajes", "recepcionista"];
+// Panel al que entra cada rol del personal (ruta desde la carpeta frontend/).
+// El rol lo decide SIEMPRE el backend (columna "rol" de la base); el navegador solo lo lee
+// para redirigir. Los valores deben coincidir exactamente con los de la base de datos.
+const PANEL_POR_ROL = {
+    administrador: "admin/dashboard.html",
+    trabajador: "admin/dashboard.html",
+    encargado_viajes: "admin/dashboard.html",
+    recepcionista: "recepcion/dashboard.html"
+};
+const ROLES_PERSONAL = Object.keys(PANEL_POR_ROL);
 
 // Mientras no exista el backend, true deja ver el panel sin sesión (solo para diseñar).
 // ANTES DE PUBLICAR: ponerlo en false.

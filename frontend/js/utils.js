@@ -112,3 +112,8 @@ async function solicitarAPI(ruta, opciones = {}) {
 function esPersonal(rol) {
     return ROLES_PERSONAL.includes(rol);
 }
+
+// Panel de cada rol (ruta desde frontend/) o null si el rol no es de personal.
+function panelPorRol(rol) {
+    return esPersonal(rol) ? PANEL_POR_ROL[rol] : null;
+}

@@ -107,10 +107,10 @@ loginForm?.addEventListener("submit", async (evento) => {
          * cookie de sesión segura cuando el login es correcto.
          */
 
-        // Un solo login: según el rol que devuelve el backend, el personal de la
-        // empresa va a su panel y los clientes se quedan en el sitio público.
+        // Un solo login: según el rol que devuelve el backend, cada rol del personal va a
+        // su propio panel y los clientes se quedan en el sitio público.
         if (esPersonal(resultado.usuario?.rol)) {
-            window.location.href = "admin/dashboard.html";
+            window.location.href = panelPorRol(resultado.usuario.rol);
             return;
         }
 

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recepción | ViajaPerú</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <script src="../js/data.js" defer></script>
+    <script src="../js/utils.js" defer></script>
+    <script src="../js/admin-guard.js" defer></script>
+    <script src="../js/admin.js" defer></script>
+</head>
+<body class="admin-body" data-roles="recepcionista">
+<div class="admin-shell">
+    <aside class="sidebar" id="sidebar">
+        <a class="logo" href="dashboard.html">Viaja<span>Perú</span><small class="role">Recepción</small></a>
+        <nav class="side-nav" aria-label="Principal">
+            <a class="nav-item active" href="dashboard.html" aria-current="page">Inicio</a>
+            <a class="nav-item" href="reservas.html">Reservas</a>
+            <a class="nav-item" href="clientes.html">Clientes</a>
+        </nav>
+        <nav class="side-nav bottom" aria-label="Cuenta">
+            <span class="nav-item is-soon" aria-disabled="true">Mi perfil <small>Pronto</small></span>
+            <a class="nav-item" href="../index.html" id="staffLogout">Cerrar sesión</a>
+        </nav>
+    </aside>
+
+    <main class="admin-main">
+        <div class="topbar">
+            <div>
+                <h1>Panel de recepción</h1>
+                <p>Reservas por atender y salidas próximas</p>
+            </div>
+            <button class="btn btn-outline btn-small menu-toggle" id="menuToggle" type="button" aria-controls="sidebar">Menú</button>
+        </div>
+
+        <section class="stats" aria-label="Indicadores">
+            <div class="stat"><span>Pendientes de confirmar</span><strong data-stat="pendientes">—</strong><small>Sin datos todavía</small></div>
+            <div class="stat"><span>Reservas de hoy</span><strong data-stat="hoy">—</strong><small>Sin datos todavía</small></div>
+            <div class="stat"><span>Salidas próximas</span><strong data-stat="salidas">—</strong><small>Sin datos todavía</small></div>
+            <div class="stat"><span>Clientes registrados</span><strong data-stat="clientes">—</strong><small>Sin datos todavía</small></div>
+        </section>
+
+        <div class="panels">
+            <section class="panel">
+                <h2>Reservas por atender</h2>
+                <div id="recentList"></div>
+            </section>
+            <div class="stack">
+                <section class="panel">
+                    <h2>Salidas próximas</h2>
+                    <div id="tripList"></div>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

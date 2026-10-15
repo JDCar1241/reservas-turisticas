@@ -13,8 +13,17 @@
         const usuario = resultado.usuario ?? resultado;
 
         if (!esPersonal(usuario.rol)) {
-            // Sesión de cliente: no corresponde al panel de la empresa.
+            // Sesión de cliente (o rol desconocido): no corresponde a ningún panel.
+            console.warn("[admin-guard] El rol «" + usuario.rol + "» no es de personal. Roles permitidos:", ROLES_PERSONAL);
             window.location.replace(usuario.rol ? SITIO : ACCESO);
+            return;
+        }
+
+        // Cada página declara qué roles pueden verla: <body data-roles="a,b">.
+        const permitidos = (document.body.dataset.roles || "").split(",").filter(Boolean);
+        if (permitidos.length && !permitidos.includes(usuario.rol)) {
+            console.warn("[admin-guard] El rol «" + usuario.rol + "» no puede ver esta área. Lo llevo a su panel.");
+            window.location.replace("../" + panelPorRol(usuario.rol));
             return;
         }
 
@@ -31,6 +40,7 @@
             document.querySelector(".admin-main")?.prepend(aviso);
             return;
         }
+        console.warn("[admin-guard] La sesión no se pudo verificar. Estado:", error.status ?? "sin respuesta", "-", error.message);
         window.location.replace(ACCESO);
     }
 })();

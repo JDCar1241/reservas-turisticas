@@ -58,12 +58,12 @@ function pintarPanel() {
         );
     });
 
-    if (reservasPorMes.length === 0) {
+    if (barras && reservasPorMes.length === 0) {
         barras.classList.add("is-empty");
         mensajeVacio(barras, "El gráfico aparecerá cuando haya reservas.");
     }
     const maximo = Math.max(1, ...reservasPorMes.map(([, n]) => n));
-    reservasPorMes.forEach(([mes, n]) => {
+    (barras ? reservasPorMes : []).forEach(([mes, n]) => {
         const barra = document.createElement("div");
         barra.className = "bar";
         const valor = document.createElement("b");
