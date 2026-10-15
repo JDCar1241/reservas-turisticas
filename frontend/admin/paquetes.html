@@ -22,9 +22,10 @@
     <link rel="stylesheet" href="../css/admin.css">
     <script src="../js/data.js" defer></script>
     <script src="../js/utils.js" defer></script>
+    <script src="../js/admin-guard.js" defer></script>
     <script src="../js/admin-paquetes.js" defer></script>
 </head>
-<body class="admin-body">
+<body class="admin-body" data-roles="administrador,trabajador,encargado_viajes">
 <div class="admin-shell">
     <aside class="sidebar" id="sidebar">
         <a class="logo" href="dashboard.html">Viaja<span>Perú</span><small class="role">Panel de trabajadores</small></a>
@@ -38,7 +39,7 @@
         </nav>
         <nav class="side-nav bottom" aria-label="Cuenta">
             <span class="nav-item is-soon" aria-disabled="true">Mi perfil <small>Pronto</small></span>
-            <a class="nav-item" href="login.html" id="staffLogout">Cerrar sesión</a>
+            <a class="nav-item" href="../index.html" id="staffLogout">Cerrar sesión</a>
         </nav>
     </aside>
 
