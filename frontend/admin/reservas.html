@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservas | ViajaPerú</title>
+    <script>
+        /* Diagnóstico: guarda los errores de carga para mostrarlos en pantalla si algo falla */
+        window.__errores = [];
+        window.addEventListener("error", (e) => {
+            const t = e.target;
+            if (t && t.tagName === "SCRIPT") window.__errores.push("No se pudo cargar el archivo " + (t.getAttribute("src") || ""));
+            else if (e.message) window.__errores.push(((e.filename || "").split("/").pop() || "script") + ": " + e.message);
+        }, true);
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -71,7 +80,22 @@
             </table>
             <p class="empty-message hidden" id="resEmpty">Aún no hay reservas registradas.</p>
         </div>
+            <p id="resStatusMsg" class="form-message" aria-live="polite"></p>
     </main>
 </div>
+<script>
+    window.addEventListener("load", () => {
+        const faltan = ["solicitarAPI", "limpiarMensaje", "cargarReservas"].filter((f) => typeof window[f] !== "function");
+        if (!window.__errores.length && !faltan.length) return;
+
+        const aviso = document.createElement("div");
+        aviso.className = "form-message error";
+        aviso.style.cssText = "margin:16px;white-space:pre-line";
+        aviso.textContent = "Este panel no se cargó bien.\n" +
+            (faltan.length ? "No están disponibles: " + faltan.join(", ") + ". Revisa que existan js/data.js, js/utils.js y js/admin-reservas.js.\n" : "") +
+            window.__errores.join("\n");
+        document.body.prepend(aviso);
+    });
+</script>
 </body>
 </html>
