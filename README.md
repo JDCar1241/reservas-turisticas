@@ -10,11 +10,11 @@ Sistema web para gestionar reservas de paquetes turísticos.
 - Control de versiones: Git y GitHub.
 - Despliegue del frontend: Vercel.
 
-## Estructura
+## Estructura del proyecto
 
 - `frontend/`: interfaz de usuario.
 - `backend/`: servidor y API.
-bla bla bla 
+
 ## Trabajo colaborativo
 
 El equipo utilizará Git y GitHub para compartir código y coordinar cambios.
