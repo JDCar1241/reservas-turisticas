@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/paquetes", paquetesRoutes);
-app.use("/api/reservas", reservasRoutes);
+app.use("/api/reservas", reservasRoutes);  
 app.use("/api/auth", authRoutes);
 
 app.get("/api/db-health", async (req, res) => {
