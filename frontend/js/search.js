@@ -304,18 +304,6 @@ searchForm?.addEventListener("submit", (evento) => {
 });
 
 /* =========================================
-   4. LIMPIAR FILTROS
-   ========================================= */
-
-const clearSearchBtn = document.querySelector("#clearSearchBtn");
-
-clearSearchBtn?.addEventListener("click", async () => {
-    searchForm?.reset();
-    limpiarMensaje(searchMessage);
-    await buscarPaquetes();
-});
-
-/* =========================================
    5. BOTONES DE DESTINOS
    ========================================= */
 
