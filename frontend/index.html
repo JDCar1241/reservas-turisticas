@@ -1,26 +1,50 @@
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-PE">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="description"
-        content="Explora destinos del Perú, compara paquetes turísticos, consulta itinerarios y organiza tu próxima aventura con ViajaPerú."
-    >
-
+    <!-- ===== SEO BÁSICO ===== -->
+    <title>ViajaPerú | Paquetes turísticos y reservas en Perú</title>
+    <meta name="description" content="Explora destinos del Perú como Machu Picchu, el Cañón del Colca y el Lago Titicaca. Compara paquetes turísticos y solicita tu reserva en ViajaPerú.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="author" content="ViajaPerú">
     <meta name="theme-color" content="#103b35">
 
-    <title>ViajaPerú | Paquetes y Reservas Turísticas</title>
+    <!-- URL canónica e idioma. AL PUBLICAR: reemplaza reservas-turisticas.onrender.com por tu dominio real (en todo el archivo). -->
+    <link rel="canonical" href="https://reservas-turisticas.onrender.com/">
+    <link rel="alternate" hreflang="es-PE" href="https://reservas-turisticas.onrender.com/">
+    <link rel="alternate" hreflang="x-default" href="https://reservas-turisticas.onrender.com/">
 
+    <!-- ===== REDES SOCIALES (Open Graph y Twitter) ===== -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ViajaPerú">
+    <meta property="og:locale" content="es_PE">
+    <meta property="og:title" content="ViajaPerú | Paquetes turísticos y reservas en Perú">
+    <meta property="og:description" content="Descubre Machu Picchu, el Cañón del Colca y el Lago Titicaca. Compara paquetes y solicita tu reserva en línea.">
+    <meta property="og:url" content="https://reservas-turisticas.onrender.com/">
+    <!-- Imagen de 1200×630 px: debes crearla y guardarla en frontend/img/og-viajaperu.jpg -->
+    <meta property="og:image" content="https://reservas-turisticas.onrender.com/img/og-viajaperu.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Vista de un destino turístico del Perú con el logo de ViajaPerú">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ViajaPerú | Paquetes turísticos y reservas en Perú">
+    <meta name="twitter:description" content="Descubre Machu Picchu, el Cañón del Colca y el Lago Titicaca. Compara paquetes y solicita tu reserva en línea.">
+    <meta name="twitter:image" content="https://reservas-turisticas.onrender.com/img/og-viajaperu.jpg">
+
+    <!-- ===== ICONO ===== -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+    <!-- ===== RENDIMIENTO (también influye en el posicionamiento) ===== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <!-- Imagen principal de la portada: la URL debe ser idéntica a la de css/layout.css -->
+    <link rel="preload" as="image" fetchpriority="high"
+          href="https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2000&q=90">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
@@ -35,14 +59,64 @@
     <script src="js/packages.js" defer></script>
     <script src="js/booking.js" defer></script>
     <script src="js/main.js" defer></script>
+
+    <!-- ===== DATOS ESTRUCTURADOS (schema.org) ===== -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "TravelAgency",
+                "@id": "https://reservas-turisticas.onrender.com/#organizacion",
+                "name": "ViajaPerú",
+                "url": "https://reservas-turisticas.onrender.com/",
+                "description": "Paquetes turísticos y reservas de viajes dentro del Perú.",
+                "areaServed": { "@type": "Country", "name": "Perú" },
+                "knowsLanguage": "es"
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://reservas-turisticas.onrender.com/#sitio",
+                "url": "https://reservas-turisticas.onrender.com/",
+                "name": "ViajaPerú",
+                "inLanguage": "es-PE",
+                "publisher": { "@id": "https://reservas-turisticas.onrender.com/#organizacion" }
+            },
+            {
+                "@type": "TouristDestination",
+                "name": "Machu Picchu",
+                "description": "Historia, naturaleza y cultura andina en uno de los destinos más emblemáticos del Perú.",
+                "containedInPlace": { "@type": "AdministrativeArea", "name": "Cusco, Perú" }
+            },
+            {
+                "@type": "TouristDestination",
+                "name": "Cañón del Colca",
+                "description": "Naturaleza y aventura en la región de Arequipa.",
+                "containedInPlace": { "@type": "AdministrativeArea", "name": "Arequipa, Perú" }
+            },
+            {
+                "@type": "TouristDestination",
+                "name": "Lago Titicaca",
+                "description": "Tradición y paisajes únicos en la región de Puno.",
+                "containedInPlace": { "@type": "AdministrativeArea", "name": "Puno, Perú" }
+            }
+        ]
+    }
+    </script>
 </head>
 
 <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+    <noscript>
+        <p style="padding:12px 16px;background:#fff4d6;color:#7a5200;text-align:center">
+            Para buscar paquetes, iniciar sesión y solicitar reservas necesitas activar JavaScript en tu navegador.
+        </p>
+    </noscript>
+
     <!-- ==================== NAVEGACIÓN ==================== -->
     <header class="navbar">
-        <a class="logo" href="#inicio" aria-label="ViajaPerú, inicio">
-            Viaja<span>Perú</span>
-        </a>
+        <a class="logo" href="#inicio" aria-label="ViajaPerú, inicio">Viaja<span>Perú</span></a>
 
         <nav aria-label="Navegación principal">
             <a href="#inicio">Inicio</a>
@@ -53,157 +127,88 @@
         </nav>
 
         <div class="nav-actions">
-            <button
-                class="btn btn-outline"
-                id="loginBtn"
-                type="button"
-            >
-                Iniciar sesión
-            </button>
-
-            <button
-                class="btn btn-small"
-                id="registerBtn"
-                type="button"
-            >
-                Registrarse
-            </button>
-
-            <button
-                class="btn btn-small hidden"
-                id="logoutBtn"
-                type="button"
-            >
-                Cerrar sesión
-            </button>
+            <button class="btn btn-outline" id="loginBtn" type="button">Iniciar sesión</button>
+            <button class="btn btn-small" id="registerBtn" type="button">Registrarse</button>
+            <button class="btn btn-small hidden" id="logoutBtn" type="button">Cerrar sesión</button>
         </div>
     </header>
 
-    <main>
+    <main id="contenido">
         <!-- ==================== PORTADA ==================== -->
-        <section class="hero" id="inicio">
+        <section class="hero" id="inicio" aria-labelledby="titulo-inicio">
             <div class="hero-content">
-                <p class="eyebrow">TU PRÓXIMA AVENTURA COMIENZA AQUÍ</p>
+                <p class="eyebrow">Tu próxima aventura comienza aquí</p>
 
-                <h1>
+                <h1 id="titulo-inicio">
                     Descubre el Perú.
                     <br>
                     <span>Vive la aventura.</span>
                 </h1>
 
                 <p class="hero-description">
-                    Explora destinos extraordinarios, compara paquetes
-                    turísticos y encuentra una experiencia que se adapte
-                    a tus planes.
+                    Explora destinos extraordinarios, compara paquetes turísticos
+                    en el Perú y encuentra una experiencia que se adapte a tus planes.
                 </p>
 
                 <div class="hero-actions">
-                    <a href="#buscar" class="btn">
-                        Explorar paquetes →
-                    </a>
-
-                    <a href="#destinos" class="btn btn-outline">
-                        Descubrir destinos
-                    </a>
+                    <a href="#buscar" class="btn">Explorar paquetes →</a>
+                    <a href="#destinos" class="btn btn-outline">Descubrir destinos</a>
                 </div>
             </div>
 
             <div class="hero-card">
-                <span class="card-label">DESTINO DESTACADO</span>
-
+                <span class="card-label">Destino destacado</span>
                 <h2>Machu Picchu</h2>
-
-                <p>
-                    Historia, naturaleza y cultura en uno de los destinos
-                    más emblemáticos del Perú.
-                </p>
-
+                <p>Historia, naturaleza y cultura en uno de los destinos más emblemáticos del Perú.</p>
                 <a href="#destinos">Descubrir destino ↗</a>
             </div>
         </section>
 
         <!-- ==================== DESTINOS ==================== -->
-        <section class="destinations" id="destinos">
+        <section class="destinations" id="destinos" aria-labelledby="titulo-destinos">
             <div class="section-heading">
                 <div>
-                    <p class="eyebrow">INSPÍRATE PARA TU VIAJE</p>
-                    <h2>Destinos populares</h2>
+                    <p class="eyebrow">Inspírate para tu viaje</p>
+                    <h2 id="titulo-destinos">Destinos populares</h2>
                 </div>
-
-                <p>
-                    Conoce lugares fascinantes y encuentra opciones
-                    para tu próxima aventura.
-                </p>
+                <p>Conoce lugares fascinantes y encuentra opciones para tu próxima aventura.</p>
             </div>
 
             <div class="destination-grid">
                 <article class="destination-card">
-                    <div
-                        class="destination-image cusco"
-                        role="img"
-                        aria-label="Destino turístico de Cusco"
-                    >
+                    <div class="destination-image cusco" role="img" aria-label="Paisaje de Cusco, destino turístico del Perú">
                         <span>CUSCO</span>
                     </div>
-
                     <div class="destination-info">
                         <h3>Machu Picchu</h3>
-
                         <p>Historia y cultura andina</p>
-
-                        <button
-                            class="btn btn-outline reserve-btn"
-                            data-destination="Machu Picchu"
-                            type="button"
-                        >
+                        <button class="btn btn-outline reserve-btn" data-destination="Machu Picchu" type="button">
                             Buscar paquetes
                         </button>
                     </div>
                 </article>
 
                 <article class="destination-card">
-                    <div
-                        class="destination-image arequipa"
-                        role="img"
-                        aria-label="Destino turístico de Arequipa"
-                    >
+                    <div class="destination-image arequipa" role="img" aria-label="Paisaje de Arequipa, destino turístico del Perú">
                         <span>AREQUIPA</span>
                     </div>
-
                     <div class="destination-info">
                         <h3>Cañón del Colca</h3>
-
                         <p>Naturaleza y aventura</p>
-
-                        <button
-                            class="btn btn-outline reserve-btn"
-                            data-destination="Cañón del Colca"
-                            type="button"
-                        >
+                        <button class="btn btn-outline reserve-btn" data-destination="Cañón del Colca" type="button">
                             Buscar paquetes
                         </button>
                     </div>
                 </article>
 
                 <article class="destination-card">
-                    <div
-                        class="destination-image puno"
-                        role="img"
-                        aria-label="Destino turístico de Puno"
-                    >
+                    <div class="destination-image puno" role="img" aria-label="Paisaje de Puno, destino turístico del Perú">
                         <span>PUNO</span>
                     </div>
-
                     <div class="destination-info">
                         <h3>Lago Titicaca</h3>
-
                         <p>Tradición y paisajes únicos</p>
-
-                        <button
-                            class="btn btn-outline reserve-btn"
-                            data-destination="Lago Titicaca"
-                            type="button"
-                        >
+                        <button class="btn btn-outline reserve-btn" data-destination="Lago Titicaca" type="button">
                             Buscar paquetes
                         </button>
                     </div>
@@ -212,82 +217,39 @@
         </section>
 
         <!-- ==================== CATÁLOGO Y FILTROS ==================== -->
-        <section class="search-section" id="buscar">
+        <section class="search-section" id="buscar" aria-labelledby="titulo-paquetes">
             <div class="section-heading">
                 <div>
-                    <p class="eyebrow">ENCUENTRA TU EXPERIENCIA</p>
-                    <h2>Paquetes turísticos</h2>
+                    <p class="eyebrow">Encuentra tu experiencia</p>
+                    <h2 id="titulo-paquetes">Paquetes turísticos</h2>
                 </div>
-
-                <p>
-                    Filtra por destino, presupuesto y fecha para encontrar
-                    el viaje que buscas.
-                </p>
+                <p>Filtra por destino, presupuesto y fecha para encontrar el viaje que buscas.</p>
             </div>
 
-            <form id="searchForm" class="form-card">
+            <form id="searchForm" class="form-card" role="search" aria-label="Buscar paquetes turísticos">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="destinationSearch">
-                            Destino
-                        </label>
-
-                        <input
-                            type="search"
-                            id="destinationSearch"
-                            name="destino"
-                            placeholder="Ej. Cusco"
-                            autocomplete="off"
-                        >
+                        <label for="destinationSearch">Destino</label>
+                        <input type="search" id="destinationSearch" name="destino" placeholder="Ej. Cusco" autocomplete="off">
                     </div>
 
                     <div class="form-group">
-                        <label for="departureDate">
-                            Fecha de salida
-                        </label>
-
-                        <input
-                            type="date"
-                            id="departureDate"
-                            name="fecha"
-                        >
+                        <label for="departureDate">Fecha de salida</label>
+                        <input type="date" id="departureDate" name="fecha">
                     </div>
 
                     <div class="form-group">
-                        <label for="minPrice">
-                            Precio mínimo (S/)
-                        </label>
-
-                        <input
-                            type="number"
-                            id="minPrice"
-                            name="precio_min"
-                            min="0"
-                            step="0.01"
-                            placeholder="Ej. 100"
-                        >
+                        <label for="minPrice">Precio mínimo (S/)</label>
+                        <input type="number" id="minPrice" name="precio_min" min="0" step="0.01" placeholder="Ej. 100">
                     </div>
 
                     <div class="form-group">
-                        <label for="maxPrice">
-                            Precio máximo (S/)
-                        </label>
-
-                        <input
-                            type="number"
-                            id="maxPrice"
-                            name="precio_max"
-                            min="0"
-                            step="0.01"
-                            placeholder="Ej. 1000"
-                        >
+                        <label for="maxPrice">Precio máximo (S/)</label>
+                        <input type="number" id="maxPrice" name="precio_max" min="0" step="0.01" placeholder="Ej. 1000">
                     </div>
 
                     <div class="form-group">
-                        <label for="sortPackages">
-                            Ordenar resultados
-                        </label>
-
+                        <label for="sortPackages">Ordenar resultados</label>
                         <select id="sortPackages" name="orden">
                             <option value="default">Recomendados</option>
                             <option value="price-asc">Menor precio</option>
@@ -297,447 +259,224 @@
                     </div>
 
                     <div class="search-actions">
-                        <button
-                            class="btn search-button"
-                            type="submit"
-                        >
-                            Buscar paquetes
-                        </button>
-
-                        <button
-                            class="btn btn-outline"
-                            id="clearSearchBtn"
-                            type="reset"
-                        >
-                            Limpiar filtros
-                        </button>
+                        <button class="btn search-button" type="submit">Buscar paquetes</button>
+                        <button class="btn btn-outline" id="clearSearchBtn" type="reset">Limpiar filtros</button>
                     </div>
                 </div>
 
-                <p
-                    id="searchMessage"
-                    class="form-message"
-                    aria-live="polite"
-                ></p>
+                <p id="searchMessage" class="form-message" aria-live="polite"></p>
             </form>
 
             <div class="catalog-heading">
                 <h3>Paquetes disponibles</h3>
-
-                <p>
-                    Consulta precios, capacidad y detalles de cada
-                    experiencia.
-                </p>
+                <p>Consulta precios, capacidad y detalles de cada experiencia.</p>
             </div>
 
-            <div
-                id="packageResults"
-                class="package-grid"
-                aria-live="polite"
-                aria-label="Resultados de paquetes turísticos"
-            >
+            <div id="packageResults" class="package-grid" aria-live="polite" aria-label="Resultados de paquetes turísticos">
                 <p class="empty-message">
-                    Pulsa «Buscar paquetes» para consultar las opciones
-                    disponibles.
+                    Pulsa «Buscar paquetes» para consultar las opciones disponibles.
                 </p>
             </div>
         </section>
 
         <!-- ==================== RESERVAS ==================== -->
-        <section class="booking-section" id="reservas">
+        <section class="booking-section" id="reservas" aria-labelledby="titulo-reservas">
             <div class="section-heading">
                 <div>
-                    <p class="eyebrow">PREPARA TU VIAJE</p>
-                    <h2>Solicitar una reserva</h2>
+                    <p class="eyebrow">Prepara tu viaje</p>
+                    <h2 id="titulo-reservas">Solicitar una reserva</h2>
                 </div>
-
-                <p>
-                    Selecciona un paquete y registra los datos de tu
-                    solicitud.
-                </p>
+                <p>Selecciona un paquete y registra los datos de tu solicitud.</p>
             </div>
 
             <form id="bookingForm" class="form-card">
                 <p class="section-description">
-                    La solicitud estará sujeta a la validación de la fecha,
-                    el precio y la disponibilidad por parte del servidor.
+                    La solicitud estará sujeta a la validación de la fecha, el precio y la
+                    disponibilidad por parte del servidor.
                 </p>
 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="bookingPackage">
-                            Paquete turístico
-                        </label>
-
+                        <label for="bookingPackage">Paquete turístico</label>
                         <select id="bookingPackage" required>
-                            <option value="">
-                                Selecciona un paquete
-                            </option>
+                            <option value="">Selecciona un paquete</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="bookingDeparture">
-                            Fecha de salida
-                        </label>
-
-                        <input
-                            type="date"
-                            id="bookingDeparture"
-                            required
-                        >
+                        <label for="bookingDeparture">Fecha de salida</label>
+                        <input type="date" id="bookingDeparture" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="bookingPeople">
-                            Número de viajeros
-                        </label>
-
-                        <input
-                            type="number"
-                            id="bookingPeople"
-                            min="1"
-                            max="20"
-                            value="1"
-                            required
-                        >
+                        <label for="bookingPeople">Número de viajeros</label>
+                        <input type="number" id="bookingPeople" min="1" max="20" value="1" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="bookingNotes">
-                        Observaciones (opcional)
-                    </label>
-
-                    <textarea
-                        id="bookingNotes"
-                        rows="3"
-                        maxlength="500"
-                        placeholder="Indica alguna consideración para tu viaje"
-                    ></textarea>
+                    <label for="bookingNotes">Observaciones (opcional)</label>
+                    <textarea id="bookingNotes" rows="3" maxlength="500"
+                              placeholder="Indica alguna consideración para tu viaje"></textarea>
                 </div>
 
-                <button class="btn" type="submit">
-                    Enviar solicitud de reserva
-                </button>
+                <button class="btn" type="submit">Enviar solicitud de reserva</button>
 
-                <p
-                    id="bookingMessage"
-                    class="form-message"
-                    aria-live="polite"
-                ></p>
+                <p id="bookingMessage" class="form-message" aria-live="polite"></p>
             </form>
         </section>
 
         <!-- ==================== INFORMACIÓN ==================== -->
-        <section class="about" id="nosotros">
-            <p class="eyebrow">VIAJA CON CONFIANZA</p>
+        <section class="about" id="nosotros" aria-labelledby="titulo-nosotros">
+            <p class="eyebrow">Viaja con confianza</p>
 
-            <h2>
-                Tu próxima experiencia empieza con una buena reserva.
-            </h2>
+            <h2 id="titulo-nosotros">Tu próxima experiencia empieza con una buena reserva.</h2>
 
             <p>
-                Explora paquetes turísticos, consulta itinerarios,
-                revisa las salidas disponibles y gestiona tus solicitudes
-                desde una sola plataforma.
+                Explora paquetes turísticos, consulta itinerarios, revisa las salidas
+                disponibles y gestiona tus solicitudes desde una sola plataforma.
             </p>
         </section>
     </main>
 
     <!-- ==================== PIE DE PÁGINA ==================== -->
     <footer>
-        <a class="logo" href="#inicio">
-            Viaja<span>Perú</span>
-        </a>
+        <a class="logo" href="#inicio" aria-label="ViajaPerú, volver al inicio">Viaja<span>Perú</span></a>
 
         <p>© 2026 ViajaPerú. Proyecto académico.</p>
 
-        <a href="#buscar">Explorar paquetes</a>
+        <nav aria-label="Enlaces del pie de página">
+            <a href="#destinos">Destinos</a>
+            <a href="#buscar">Explorar paquetes</a>
+            <a href="#reservas">Reservas</a>
+        </nav>
     </footer>
 
     <!-- ==================== INICIO DE SESIÓN ==================== -->
-    <dialog
-        id="loginDialog"
-        class="auth-dialog"
-        aria-labelledby="loginTitle"
-    >
+    <dialog id="loginDialog" class="auth-dialog" aria-labelledby="loginTitle">
         <aside class="auth-visual" aria-hidden="true">
             <div class="logo">Viaja<span>Perú</span></div>
-
             <div>
                 <h3>Tu próximo viaje empieza aquí</h3>
-
-                <p>
-                    Inicia sesión para gestionar tus solicitudes
-                    de reserva.
-                </p>
+                <p>Inicia sesión para gestionar tus solicitudes de reserva.</p>
             </div>
         </aside>
 
         <div class="auth-panel">
             <div class="dialog-header">
                 <div>
-                    <p class="eyebrow">BIENVENIDO DE NUEVO</p>
+                    <p class="eyebrow">Bienvenido de nuevo</p>
                     <h2 id="loginTitle">Iniciar sesión</h2>
                 </div>
-
-                <button
-                    class="close-dialog"
-                    type="button"
-                    data-close="loginDialog"
-                    aria-label="Cerrar"
-                >
-                    ×
-                </button>
+                <button class="close-dialog" type="button" data-close="loginDialog" aria-label="Cerrar">×</button>
             </div>
 
             <form id="loginForm">
                 <div class="form-group">
-                    <label for="loginEmail">
-                        Correo electrónico
-                    </label>
-
-                    <input
-                        id="loginEmail"
-                        type="email"
-                        autocomplete="email"
-                        placeholder="tucorreo@ejemplo.com"
-                        required
-                        maxlength="254"
-                    >
+                    <label for="loginEmail">Correo electrónico</label>
+                    <input id="loginEmail" type="email" autocomplete="email"
+                           placeholder="tucorreo@ejemplo.com" required maxlength="254">
                 </div>
 
                 <div class="form-group">
-                    <label for="loginPassword">
-                        Contraseña
-                    </label>
-
+                    <label for="loginPassword">Contraseña</label>
                     <div class="password-field">
-                        <input
-                            id="loginPassword"
-                            type="password"
-                            autocomplete="current-password"
-                            required
-                        >
-
-                        <button
-                            class="toggle-password"
-                            type="button"
-                            data-target="loginPassword"
-                            aria-pressed="false"
-                            aria-label="Mostrar u ocultar contraseña"
-                        >
-                            Mostrar
-                        </button>
+                        <input id="loginPassword" type="password" autocomplete="current-password" required>
+                        <button class="toggle-password" type="button" data-target="loginPassword"
+                                aria-pressed="false" aria-label="Mostrar u ocultar contraseña">Mostrar</button>
                     </div>
                 </div>
 
-                <button class="btn full-width" type="submit">
-                    Entrar
-                </button>
-
-                <p
-                    id="loginMessage"
-                    class="form-message"
-                    aria-live="polite"
-                ></p>
+                <button class="btn full-width" type="submit">Entrar</button>
+                <p id="loginMessage" class="form-message" aria-live="polite"></p>
             </form>
 
             <p class="dialog-switch">
                 ¿No tienes una cuenta?
-
-                <button type="button" id="switchToRegister">
-                    Regístrate
-                </button>
+                <button type="button" id="switchToRegister">Regístrate</button>
             </p>
         </div>
     </dialog>
 
     <!-- ==================== REGISTRO ==================== -->
-    <dialog
-        id="registerDialog"
-        class="auth-dialog"
-        aria-labelledby="registerTitle"
-    >
+    <dialog id="registerDialog" class="auth-dialog" aria-labelledby="registerTitle">
         <aside class="auth-visual" aria-hidden="true">
             <div class="logo">Viaja<span>Perú</span></div>
-
             <div>
                 <h3>Crea tu cuenta en minutos</h3>
-
-                <p>
-                    Registra tus datos para gestionar tus reservas
-                    desde un solo lugar.
-                </p>
+                <p>Registra tus datos para gestionar tus reservas desde un solo lugar.</p>
             </div>
         </aside>
 
         <div class="auth-panel">
             <div class="dialog-header">
                 <div>
-                    <p class="eyebrow">ÚNETE A LA AVENTURA</p>
+                    <p class="eyebrow">Únete a la aventura</p>
                     <h2 id="registerTitle">Crear cuenta</h2>
                 </div>
-
-                <button
-                    class="close-dialog"
-                    type="button"
-                    data-close="registerDialog"
-                    aria-label="Cerrar"
-                >
-                    ×
-                </button>
+                <button class="close-dialog" type="button" data-close="registerDialog" aria-label="Cerrar">×</button>
             </div>
 
             <form id="registerForm">
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="registerNames">Nombres</label>
-
-                        <input
-                            id="registerNames"
-                            type="text"
-                            autocomplete="given-name"
-                            required
-                            maxlength="100"
-                        >
+                        <input id="registerNames" type="text" autocomplete="given-name" required maxlength="100">
                     </div>
 
                     <div class="form-group">
                         <label for="registerLastNames">Apellidos</label>
-
-                        <input
-                            id="registerLastNames"
-                            type="text"
-                            autocomplete="family-name"
-                            required
-                            maxlength="100"
-                        >
+                        <input id="registerLastNames" type="text" autocomplete="family-name" required maxlength="100">
                     </div>
 
                     <div class="form-group">
                         <label for="registerDni">DNI peruano</label>
-
-                        <input
-                            id="registerDni"
-                            type="text"
-                            inputmode="numeric"
-                            pattern="[0-9]{8}"
-                            minlength="8"
-                            maxlength="8"
-                            placeholder="8 dígitos"
-                            required
-                        >
+                        <input id="registerDni" type="text" inputmode="numeric" pattern="[0-9]{8}"
+                               minlength="8" maxlength="8" placeholder="8 dígitos" required>
                     </div>
 
                     <div class="form-group">
                         <label for="registerPhone">Teléfono</label>
-
-                        <input
-                            id="registerPhone"
-                            type="tel"
-                            autocomplete="tel"
-                            maxlength="20"
-                            required
-                        >
+                        <input id="registerPhone" type="tel" autocomplete="tel" maxlength="20" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="registerEmail">
-                        Correo electrónico
-                    </label>
-
-                    <input
-                        id="registerEmail"
-                        type="email"
-                        autocomplete="email"
-                        required
-                        maxlength="254"
-                    >
+                    <label for="registerEmail">Correo electrónico</label>
+                    <input id="registerEmail" type="email" autocomplete="email" required maxlength="254">
                 </div>
 
                 <div class="form-group">
-                    <label for="registerPassword">
-                        Contraseña
-                    </label>
-
+                    <label for="registerPassword">Contraseña</label>
                     <div class="password-field">
-                        <input
-                            id="registerPassword"
-                            type="password"
-                            autocomplete="new-password"
-                            minlength="8"
-                            required
-                        >
-
-                        <button
-                            class="toggle-password"
-                            type="button"
-                            data-target="registerPassword"
-                            aria-pressed="false"
-                            aria-label="Mostrar u ocultar contraseña"
-                        >
-                            Mostrar
-                        </button>
+                        <input id="registerPassword" type="password" autocomplete="new-password" minlength="8" required>
+                        <button class="toggle-password" type="button" data-target="registerPassword"
+                                aria-pressed="false" aria-label="Mostrar u ocultar contraseña">Mostrar</button>
                     </div>
-
                     <small>Usa al menos 8 caracteres.</small>
                 </div>
 
                 <div class="form-group">
-                    <label for="registerPasswordConfirm">
-                        Confirmar contraseña
-                    </label>
-
+                    <label for="registerPasswordConfirm">Confirmar contraseña</label>
                     <div class="password-field">
-                        <input
-                            id="registerPasswordConfirm"
-                            type="password"
-                            autocomplete="new-password"
-                            minlength="8"
-                            required
-                        >
-
-                        <button
-                            class="toggle-password"
-                            type="button"
-                            data-target="registerPasswordConfirm"
-                            aria-pressed="false"
-                            aria-label="Mostrar u ocultar contraseña"
-                        >
-                            Mostrar
-                        </button>
+                        <input id="registerPasswordConfirm" type="password" autocomplete="new-password" minlength="8" required>
+                        <button class="toggle-password" type="button" data-target="registerPasswordConfirm"
+                                aria-pressed="false" aria-label="Mostrar u ocultar contraseña">Mostrar</button>
                     </div>
                 </div>
 
-                <button class="btn full-width" type="submit">
-                    Crear cuenta
-                </button>
-
-                <p
-                    id="registerMessage"
-                    class="form-message"
-                    aria-live="polite"
-                ></p>
+                <button class="btn full-width" type="submit">Crear cuenta</button>
+                <p id="registerMessage" class="form-message" aria-live="polite"></p>
             </form>
 
             <p class="dialog-switch">
                 ¿Ya tienes una cuenta?
-
-                <button type="button" id="switchToLogin">
-                    Inicia sesión
-                </button>
+                <button type="button" id="switchToLogin">Inicia sesión</button>
             </p>
         </div>
     </dialog>
 
     <!-- Mensajes de estado de sesión -->
-    <div
-        id="sessionStatus"
-        class="session-status"
-        aria-live="polite"
-    ></div>
+    <div id="sessionStatus" class="session-status" aria-live="polite"></div>
 </body>
 </html>
